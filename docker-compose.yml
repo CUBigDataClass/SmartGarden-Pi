@@ -1,0 +1,12 @@
+version: '3'
+services:
+    python:
+        build: .
+        container_name: garden_python
+        devices:
+          - /dev/ttyUSB0:/dev/ttyUSB0
+        command: python3 -u main.py
+        restart: unless-stopped
+        logging:
+          options:
+            max-size: '50m'
