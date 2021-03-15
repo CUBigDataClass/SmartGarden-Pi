@@ -5,6 +5,8 @@ services:
         container_name: garden_python
         devices:
           - /dev/ttyUSB0:/dev/ttyUSB0
+        env_file:
+          - config.env
         command: python3 -u main.py
         restart: unless-stopped
         logging:
