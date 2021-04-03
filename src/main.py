@@ -25,7 +25,7 @@ while True:
     line = arduino.readline().decode('utf-8').strip()
     data = line.split(':')
     if len(data) == 2:
-        data = f"{data[0]},host=host1 value={float(data[1])}"
+        data = f'{data[0].replace(" ", "_")},host=host1 value={float(data[1])}'
         write_api.write(bucket, org, data)
         print(f'wrote: {data}')
     else:
