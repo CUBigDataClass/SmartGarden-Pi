@@ -5,9 +5,12 @@ from influxdb_client.client.write_api import SYNCHRONOUS
 
 import helpers
 
+# Stage Setup
+host = os.environ['HOST']
+
 # Ardino Setup
-device = os.getenv('DEVICE_PORT', '/dev/ttyUSB0')
-brate = os.getenv('BAUD_RATE', 9600)
+device = os.environ['DEVICE_PORT']
+brate = os.environ['BAUD_RATE']
 
 print(f'connecting to {device} with {brate}')
 arduino = serial.Serial(device, brate, timeout=10)
@@ -27,7 +30,7 @@ while True:
     line = arduino.readline().decode('utf-8').strip()
     data = line.split(':')
     if len(data) == 2:
-        data = f'{helpers.formatTitle(data[0])},host=host1 value={float(data[1])}'
+        data = f'{helpers.formatTitle(data[0])},host={host} value={float(data[1])}'
         write_api.write(bucket, org, data)
         print(f'wrote: {data}')
     else:
