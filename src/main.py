@@ -3,6 +3,8 @@ import os
 from influxdb_client import InfluxDBClient
 from influxdb_client.client.write_api import SYNCHRONOUS
 
+import helpers
+
 device = os.getenv('DEVICE_PORT', '/dev/ttyUSB0')
 brate = os.getenv('BAUD_RATE', 9600)
 
@@ -25,7 +27,7 @@ while True:
     line = arduino.readline().decode('utf-8').strip()
     data = line.split(':')
     if len(data) == 2:
-        data = f'{data[0].replace(" ", "_")},host=host1 value={float(data[1])}'
+        data = f'{helpers.formatTitle(data[0])},host=host1 value={float(data[1])}'
         write_api.write(bucket, org, data)
         print(f'wrote: {data}')
     else:
